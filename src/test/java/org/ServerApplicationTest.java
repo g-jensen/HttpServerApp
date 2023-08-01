@@ -56,7 +56,7 @@ class ServerApplicationTest {
 
         Socket socket1 = new Socket();
         socket1.connect(s.getServer().socketAddress());
-        socket1.getOutputStream().write("GET /home HTTP/1.1\r\nHost: me\r\n\n".getBytes());
+        socket1.getOutputStream().write("GET /hello HTTP/1.1\r\nHost: me\r\n\n".getBytes());
 
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
@@ -115,6 +115,33 @@ class ServerApplicationTest {
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
         assertEquals("Hello",new String(m.getBody()));
+    }
+
+    @Test
+    void respondsWithTxtMimeType() throws BadUsageException, IOException, BadRequestException {
+        PrintStream p = new PrintStream(new ByteOutputStream());
+        ServerApplication s = new ServerApplication(new String[]{"-p","8099"},p);
+        s.run();
+
+        Socket socket1 = new Socket();
+        socket1.connect(s.getServer().socketAddress());
+        socket1.getOutputStream().write("GET /resources/test.txt HTTP/1.1\r\nHost: me\r\n\r\n".getBytes());
+
+        HttpMessage m = new HttpMessage(socket1.getInputStream());
+        assertEquals("text/plain",m.getHeaderFields().get("Content-Type"));
+    }
+
+    @Test
+    void respondsWithPngMimeType() throws BadUsageException, IOException, BadRequestException {
+        PrintStream p = new PrintStream(new ByteOutputStream());
+        ServerApplication s = new ServerApplication(new String[]{"-p","8100"},p);
+        s.run();
+
+        Socket socket1 = new Socket();
+        socket1.connect(s.getServer().socketAddress());
+        socket1.getOutputStream().write("GET /resources/math-bridge.png HTTP/1.1\r\nHost: me\r\n\r\n".getBytes());
+        HttpMessage m = new HttpMessage(socket1.getInputStream());
+        assertEquals("image/png",m.getHeaderFields().get("Content-Type"));
     }
 
     @Test

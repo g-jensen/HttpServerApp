@@ -3,6 +3,7 @@ package httpserver;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class HttpParser {
     public HttpParser(HttpMessage message) {
@@ -56,10 +57,9 @@ public class HttpParser {
             return;
         try {
             int k = Integer.parseInt(message.getHeaderFields().get("Content-Length"));
-            String s = "";
-            for (int i = 0; i < k; i++)
-                s += (char)reader.read();
-            message.setBody(s);
+            char[] bytes = new char[k];
+            reader.read(bytes,0,k);
+            message.setBody(new String(bytes).getBytes());
         } catch (Exception e) {
             throw new BadRequestException();
         }

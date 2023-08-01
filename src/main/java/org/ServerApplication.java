@@ -39,7 +39,7 @@ public class ServerApplication {
         server.onConnection((req)-> {
             String uri = req.getURI();
             HttpMessage res = new HttpMessage();
-            if (uri.equals("home"))
+            if (uri.equals("hello"))
                 buildWelcomeScreen(res);
             else if (uri.equals("ping"))
                 buildPing(res);
