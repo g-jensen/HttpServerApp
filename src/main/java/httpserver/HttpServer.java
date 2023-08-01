@@ -42,6 +42,8 @@ public class HttpServer {
                 send(s,res.toString().getBytes());
             } catch (BadRequestException e) {
                 send(s,e.getMessage().getBytes());
+            } catch (Exception e) {
+                printStream.println(e.getMessage());
             }
         }).start();
     }

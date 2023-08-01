@@ -51,7 +51,7 @@ public class ServerApplication {
             return res;
         });
         new Thread(()->{
-            while (true) server.handleConnection();
+            while (server.isBound()) server.handleConnection();
         }).start();
     }
     public void addCommands() {
