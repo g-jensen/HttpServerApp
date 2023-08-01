@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 
@@ -93,6 +94,10 @@ public class ServerApplication {
     }
     private void buildDirectory(HttpMessage res, String uri) {
         String[] files = repository.fileNames(uri);
+        if (Arrays.stream(files).anyMatch(s->s.endsWith("index.html"))) {
+            buildFile(res,uri+"/index.html");
+            return;
+        }
         String body = "";
         for (String file: files) {
             file = file.substring(rootDirectory.length());

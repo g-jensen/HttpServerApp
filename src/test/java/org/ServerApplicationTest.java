@@ -239,6 +239,23 @@ class ServerApplicationTest {
     }
 
     @Test
+    void respondsWithIndexHTML() throws BadUsageException, IOException, BadRequestException {
+        PrintStream p = new PrintStream(new ByteOutputStream());
+        ServerApplication s = new ServerApplication(new String[]{"-p","8098"},p);
+        s.run();
+
+        Socket socket1 = new Socket();
+        socket1.connect(s.getServer().socketAddress());
+        socket1.getOutputStream().write((
+                "GET /resources/moreStuff/page HTTP/1.1\r\n" +
+                "Host: me\r\n\r\n").getBytes());
+        String str = "<h1>This is my page</h1>\n<p>In the file index.html</p>";
+        HttpMessage m = new HttpMessage(socket1.getInputStream());
+        assertEquals("HTTP/1.1 200 OK",m.getStartLine());
+        assertEquals(str,new String(m.getBody()));
+    }
+
+    @Test
     void handlesConnectionsAsynchronously() throws BadUsageException, IOException {
         PrintStream p = new PrintStream(new ByteOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8090"},p);
