@@ -36,7 +36,6 @@ class HttpServerTest {
         assertFalse(s1.isBound());
         assertNotEquals(a1,s1.socketAddress());
         assertEquals("Permission denied (Bind failed)\n",o1.toString());
-        s1.getServer().close();
     }
 
     @Test
