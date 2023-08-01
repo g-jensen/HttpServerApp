@@ -129,9 +129,8 @@ class ServerApplicationTest {
 
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        String str1 =
-                "<a href=\"/resources/moreStuff/greetings\">" +
-                "/resources/moreStuff/greetings</a><br>";
+        String str1 = "<a href=\"/resources/moreStuff/page\">/resources/moreStuff/page</a><br>" +
+                "<a href=\"/resources/moreStuff/greetings\">/resources/moreStuff/greetings</a><br>";
         assertEquals(str1,new String(m.getBody()));
     }
 
