@@ -125,20 +125,18 @@ public class ServerApplication {
         if (method.equals("GET"))
             body = guessBody(random.nextInt(101)+1,0);
         else if (method.equals("POST")) {
-            try {
-                String str = new String(req.getBody());
-                int guess = Integer.parseInt(parseValue("guess",str));
-                int answer = Integer.parseInt(parseValue("answer",str));
-                int tries = Integer.parseInt(parseValue("tries",str));
-                if (guess == answer)
-                    body = "You win!";
-                else if (tries > 5)
-                    body = "You lose!";
-                else if (guess < answer)
-                    body = guessBody(answer,tries+1) + " too low";
-                else
-                    body = guessBody(answer,tries+1) + " too high";
-            } catch (Exception ignored) {}
+            String str = new String(req.getBody());
+            int guess = Integer.parseInt(parseValue("guess",str));
+            int answer = Integer.parseInt(parseValue("answer",str));
+            int tries = Integer.parseInt(parseValue("tries",str));
+            if (guess == answer)
+                body = "You win!";
+            else if (tries > 5)
+                body = "You lose!";
+            else if (guess < answer)
+                body = guessBody(answer,tries+1) + " too low";
+            else
+                body = guessBody(answer,tries+1) + " too high";
         }
         res.setStartLine("HTTP/1.1 200 OK");
         res.putHeader("Content-Length", String.valueOf(body.length()));
