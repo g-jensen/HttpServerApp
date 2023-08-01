@@ -97,7 +97,8 @@ class ServerApplicationTest {
                 "<a href=\"/resources/moreStuff\">/resources/moreStuff</a><br>" +
                 "<a href=\"/resources/math-bridge.png\">/resources/math-bridge.png</a><br>" +
                 "<a href=\"/resources/hello.md\">/resources/hello.md</a><br>" +
-                "<a href=\"/resources/test.txt\">/resources/test.txt</a><br>";
+                "<a href=\"/resources/test.txt\">/resources/test.txt</a><br>" +
+                "<a href=\"/resources/Isopoly_05.gif\">/resources/Isopoly_05.gif</a><br>";
         assertEquals(str1,new String(m.getBody()));
     }
 
