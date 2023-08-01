@@ -7,24 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class HttpMessage {
-    @Override
-    public String toString() {
-        String str = startLine + "\r\n" +
-                        headerFields.keySet().stream()
-                                .map(key -> key + ": " + headerFields.get(key))
-                                .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
-        if (Objects.nonNull(body))
-            str += new String(body);
-        return str;
-    }
-
-    public String getBodyAndHeaders() {
-        return  startLine + "\r\n" +
-                headerFields.keySet().stream()
-                        .map(key -> key + ": " + headerFields.get(key))
-                        .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
-    }
-
+    public boolean isRequest;
     public HttpMessage() {
         isRequest = false;
         URI = null;
@@ -33,20 +16,28 @@ public class HttpMessage {
         headerFields = new HashMap<>();
     }
     public HttpMessage(String string) throws BadRequestException {
-        isRequest = false;
-        URI = null;
-        startLine = "";
-        method = "";
-        headerFields = new HashMap<>();
+        this();
         new HttpParser(this).parseFromStream(new ByteArrayInputStream(string.getBytes()));
     }
     public HttpMessage(InputStream stream) throws BadRequestException {
-        isRequest = false;
-        URI = null;
-        startLine = "";
-        method = "";
-        headerFields = new HashMap<>();
+        this();
         new HttpParser(this).parseFromStream(stream);
+    }
+    @Override
+    public String toString() {
+        String str = startLine + "\r\n" +
+                headerFields.keySet().stream()
+                        .map(key -> key + ": " + headerFields.get(key))
+                        .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
+        if (Objects.nonNull(body))
+            str += new String(body);
+        return str;
+    }
+    public String getStartLineAndHeaders() {
+        return  startLine + "\r\n" +
+                headerFields.keySet().stream()
+                        .map(key -> key + ": " + headerFields.get(key))
+                        .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
     }
     public String getStartLine() {
         return startLine;
@@ -79,8 +70,6 @@ public class HttpMessage {
     public void setMethod(String method) {
         this.method = method;
     }
-
-    public boolean isRequest;
     private String startLine;
     private String URI;
     private String method;

@@ -6,7 +6,6 @@ import httpserver.BadRequestException;
 import httpserver.HttpMessage;
 import httpserver.HttpServer;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 

@@ -40,7 +40,7 @@ public class HttpServer {
             try {
                 HttpMessage req = new HttpMessage(getInput(s));
                 HttpMessage res = action.apply(req);
-                send(s,res.getBodyAndHeaders().getBytes());
+                send(s,res.getStartLineAndHeaders().getBytes());
                 byte[] body = res.getBody();
                 if (Objects.nonNull(body))
                     send(s,body);

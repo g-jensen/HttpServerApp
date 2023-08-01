@@ -75,6 +75,7 @@ public class ServerApplication {
     public void setRandom(Random random) {
         this.random = random;
     }
+
     private void buildWelcomeScreen(HttpMessage res) {
         String body = "<h1>Welcome</h1><p>This is an http server</p>";
         res.setStartLine("HTTP/1.1 200 OK");
