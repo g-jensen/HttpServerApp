@@ -105,9 +105,9 @@ public class ServerApplication {
     }
     private void buildFile(HttpMessage res, String uri) {
         Path p = repository.getPath(uri);
-        String body = new String(repository.fileData(uri));
+        byte[] body = repository.fileData(uri);
         res.setStartLine("HTTP/1.1 200 OK");
-        res.putHeader("Content-Length", String.valueOf(body.length()));
+        res.putHeader("Content-Length", String.valueOf(body.length));
         try {
             res.putHeader("Content-Type", Files.probeContentType(p));
         } catch (IOException ignored) {}
@@ -120,7 +120,7 @@ public class ServerApplication {
             body = guessBody(random.nextInt(101)+1,0);
         else if (method.equals("POST")) {
             try {
-                String str = req.getBody();
+                String str = new String(req.getBody());
                 int guess = Integer.parseInt(parseValue("guess",str));
                 int answer = Integer.parseInt(parseValue("answer",str));
                 int tries = Integer.parseInt(parseValue("tries",str));

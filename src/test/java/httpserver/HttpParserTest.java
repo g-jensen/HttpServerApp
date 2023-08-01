@@ -55,7 +55,7 @@ class HttpParserTest {
                 "hello";
         InputStream in1 = new ByteArrayInputStream(s1.getBytes());
         p.parseFromStream(in1);
-        assertEquals("hello",m.getBody());
+        assertEquals("hello",new String(m.getBody()));
     }
 
     @Test
@@ -70,7 +70,7 @@ class HttpParserTest {
                 "hello\r\nbye";
         InputStream in1 = new ByteArrayInputStream(s1.getBytes());
         p.parseFromStream(in1);
-        assertEquals("hello\r\nbye",m.getBody());
+        assertEquals("hello\r\nbye",new String(m.getBody()));
     }
 
     @Test

@@ -20,7 +20,7 @@ class HttpMessageTest {
         assertEquals(2,m1.getHeaderFields().size());
         assertEquals("127.0.0.1", m1.getHeaderFields().get("Host"));
         assertEquals("5", m1.getHeaderFields().get("Content-Length"));
-        assertEquals("hello",m1.getBody());
+        assertEquals("hello",new String(m1.getBody()));
     }
 
     @Test

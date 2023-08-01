@@ -3,16 +3,26 @@ package httpserver;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class HttpMessage {
     @Override
     public String toString() {
+        String str = startLine + "\r\n" +
+                        headerFields.keySet().stream()
+                                .map(key -> key + ": " + headerFields.get(key))
+                                .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
+        if (Objects.nonNull(body))
+            str += new String(body);
+        return str;
+    }
+
+    public String getBodyAndHeaders() {
         return  startLine + "\r\n" +
                 headerFields.keySet().stream()
                         .map(key -> key + ": " + headerFields.get(key))
-                        .collect(Collectors.joining("\r\n")) + "\r\n\r\n" +
-                body;
+                        .collect(Collectors.joining("\r\n")) + "\r\n\r\n";
     }
 
     public HttpMessage() {
@@ -44,12 +54,13 @@ public class HttpMessage {
     public void setStartLine(String startLine) {
         this.startLine = startLine;
     }
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
-    public void setBody(String body) {
+    public void setBody(byte[] body) {
         this.body = body;
     }
+    public void setBody(String body) {this.body = body.getBytes();}
     public HashMap<String, String> getHeaderFields() {
         return headerFields;
     }
@@ -74,5 +85,5 @@ public class HttpMessage {
     private String URI;
     private String method;
     private HashMap<String,String> headerFields;
-    private String body;
+    private byte[] body;
 }

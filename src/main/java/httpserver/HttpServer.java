@@ -2,6 +2,7 @@ package httpserver;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class HttpServer {
@@ -39,11 +40,12 @@ public class HttpServer {
             try {
                 HttpMessage req = new HttpMessage(getInput(s));
                 HttpMessage res = action.apply(req);
-                send(s,res.toString().getBytes());
+                send(s,res.getBodyAndHeaders().getBytes());
+                byte[] body = res.getBody();
+                if (Objects.nonNull(body))
+                    send(s,body);
             } catch (BadRequestException e) {
                 send(s,e.getMessage().getBytes());
-            } catch (Exception e) {
-                printStream.println(e.getMessage());
             }
         }).start();
     }

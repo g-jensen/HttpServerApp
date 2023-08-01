@@ -60,7 +60,7 @@ class ServerApplicationTest {
 
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals("<h1>Welcome</h1><p>This is an http server</p>",m.getBody());
+        assertEquals("<h1>Welcome</h1><p>This is an http server</p>",new String(m.getBody()));
     }
 
     @Test
@@ -76,7 +76,7 @@ class ServerApplicationTest {
 
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals(time,m.getBody());
+        assertEquals(time,new String(m.getBody()));
     }
 
     @Test
@@ -98,7 +98,7 @@ class ServerApplicationTest {
                 "<a href=\"/resources/math-bridge.png\">/resources/math-bridge.png</a><br>" +
                 "<a href=\"/resources/hello.md\">/resources/hello.md</a><br>" +
                 "<a href=\"/resources/test.txt\">/resources/test.txt</a><br>";
-        assertEquals(str1,m.getBody());
+        assertEquals(str1,new String(m.getBody()));
     }
 
     @Test
@@ -113,7 +113,7 @@ class ServerApplicationTest {
 
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals("Hello",m.getBody());
+        assertEquals("Hello",new String(m.getBody()));
     }
 
     @Test
@@ -131,7 +131,7 @@ class ServerApplicationTest {
         String str1 =
                 "<a href=\"/resources/moreStuff/greetings\">" +
                 "/resources/moreStuff/greetings</a><br>";
-        assertEquals(str1,m.getBody());
+        assertEquals(str1,new String(m.getBody()));
     }
 
     @Test
@@ -155,7 +155,7 @@ class ServerApplicationTest {
                 "<input type=\"submit\" value=\"Submit\"></form>";
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals(str,m.getBody());
+        assertEquals(str,new String(m.getBody()));
     }
 
     @Test
@@ -172,7 +172,7 @@ class ServerApplicationTest {
                 "guess=15&answer=15&tries=1").getBytes());
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals("You win!",m.getBody());
+        assertEquals("You win!",new String(m.getBody()));
     }
 
     @Test
@@ -189,7 +189,7 @@ class ServerApplicationTest {
                 "guess=14&answer=15&tries=6").getBytes());
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals("You lose!",m.getBody());
+        assertEquals("You lose!",new String(m.getBody()));
     }
 
     @Test
@@ -212,7 +212,7 @@ class ServerApplicationTest {
                 "<input type=\"submit\" value=\"Submit\"></form> too low";
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals(str,m.getBody());
+        assertEquals(str,new String(m.getBody()));
     }
 
     @Test
@@ -235,7 +235,7 @@ class ServerApplicationTest {
                 "<input type=\"submit\" value=\"Submit\"></form> too high";
         HttpMessage m = new HttpMessage(socket1.getInputStream());
         assertEquals("HTTP/1.1 200 OK",m.getStartLine());
-        assertEquals(str,m.getBody());
+        assertEquals(str,new String(m.getBody()));
     }
 
     @Test
