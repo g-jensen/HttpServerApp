@@ -1,11 +1,15 @@
 package httpserver;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import commandparser.BadUsageException;
+import org.ServerApplication;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +26,7 @@ class HttpServerTest {
         assertTrue(s1.isBound());
         assertEquals(a1,s1.socketAddress());
         assertEquals(s1.listeningString()+"\n",o1.toString());
-        s1.getServer().close();
+        s1.stop();
     }
 
     @Test
@@ -36,6 +40,7 @@ class HttpServerTest {
         assertFalse(s1.isBound());
         assertNotEquals(a1,s1.socketAddress());
         assertEquals("Permission denied (Bind failed)\n",o1.toString());
+        s1.stop();
     }
 
     @Test
@@ -67,6 +72,7 @@ class HttpServerTest {
 
         assertArrayEquals(hello,b1);
         assertArrayEquals(bye,b2);
+        s1.stop();
     }
 
     @Test
@@ -85,60 +91,79 @@ class HttpServerTest {
                 throw new RuntimeException(e);
             }
         });
-        Thread t = new Thread(s1::handleConnection);
-        t.start();
+        s1.run();
 
         Socket socket1 = new Socket();
         socket1.connect(a1);
         socket1.getOutputStream().write("GET / HTTP/1.1\r\nHost: me\r\n\r\n".getBytes());
         HttpMessage res = new HttpMessage(socket1.getInputStream());
 
-        t.join();
         assertEquals(2,a[0]);
+        s1.stop();
+    }
+
+    @Test
+    void handlesConnectionsAsynchronously() throws IOException {
+        InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8102);
+        HttpServer s1 = new HttpServer(a1);
+        s1.setPrintStream(new PrintStream(new ByteOutputStream()));
+        s1.initialize();
+        s1.onConnection((req)-> {
+            try {Thread.sleep(1000);} catch (Exception ignored) {}
+            return new HttpMessage();
+        });
+        s1.run();
+
+        Instant start = Instant.now();
+        for (int i = 0; i < 5; i++) {
+            Socket socket1 = new Socket();
+            socket1.connect(a1);
+            socket1.getOutputStream().write("GET / HTTP/1.1\r\n\r\n".getBytes());
+        }
+        Instant end = Instant.now();
+
+        assertTrue(Duration.between(start,end).getSeconds() < 5);
+        s1.stop();
     }
 
     @Test
     void sendsReturnValueOfOnConnectionWhenHandlingConnection() throws IOException, InterruptedException, BadRequestException {
-        InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8084);
+        InetSocketAddress a1 = new InetSocketAddress("127.0.0.1", 8084);
         HttpServer s1 = new HttpServer(a1);
         s1.setPrintStream(new PrintStream(new ByteOutputStream()));
         s1.initialize();
 
         HttpMessage m1 = new HttpMessage("HTTP/1.1 200 OK\r\n\r\n");
         s1.onConnection((s) -> m1);
-        Thread t = new Thread(s1::handleConnection);
-        t.start();
+        s1.run();
 
         Socket socket1 = new Socket();
         socket1.connect(a1);
         socket1.getOutputStream().write("GET / HTTP/1.1\r\nHost: me\r\n\r\n".getBytes());
 
-        t.join();
         HttpMessage m2 = new HttpMessage(socket1.getInputStream());
-        assertEquals(m1.toString(),m2.toString());
-        s1.getServer().close();
+        assertEquals(m1.toString(), m2.toString());
+        s1.stop();
     }
 
     @Test
     void handlesBadRequest() throws IOException, BadRequestException, InterruptedException {
-        InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8084);
+        InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8101);
         HttpServer s1 = new HttpServer(a1);
         s1.setPrintStream(new PrintStream(new ByteOutputStream()));
         s1.initialize();
 
         HttpMessage m1 = new HttpMessage("HTTP/1.1 400 Bad Request\r\n\r\n");
         s1.onConnection((s) -> m1);
-        Thread t = new Thread(s1::handleConnection);
-        t.start();
+        s1.run();
 
         Socket socket1 = new Socket();
         socket1.connect(a1);
         socket1.getOutputStream().write("GET / HTTP/1.1\r\n\r\n".getBytes());
 
-        t.join();
         HttpMessage m2 = new HttpMessage(socket1.getInputStream());
         assertEquals(m1.toString(),m2.toString());
-        s1.getServer().close();
+        s1.stop();
     }
 
     @Test
@@ -154,6 +179,5 @@ class HttpServerTest {
         assertEquals(
                 "Listening at 192.225.81.49 on port 8081",
                 s2.listeningString());
-        s1.getServer().close();
     }
 }

@@ -19,6 +19,16 @@ public class HttpServer {
             printStream.println(e.getMessage());
         }
     }
+    public void run() {
+        new Thread(()->{
+            while (isRunning()) handleConnection();
+        }).start();
+    }
+    public void stop() {
+        try {
+            server.close();
+        } catch (IOException ignored) {}
+    }
     public Socket listen() {
         try {
             return server.accept();
@@ -27,12 +37,14 @@ public class HttpServer {
     public void send(Socket s, byte[] bytes) {
         try {
             s.getOutputStream().write(bytes);
-        } catch (IOException ignore) {}
+        } catch (Exception ignore) {}
     }
     public InputStream getInput(Socket s) {
         try {
             return s.getInputStream();
-        } catch (IOException ignore) {return null;}
+        } catch (Exception ignore) {
+            return new ByteArrayInputStream(new byte[0]);
+        }
     }
     public void handleConnection() {
         Socket s = listen();
@@ -52,6 +64,7 @@ public class HttpServer {
     public void onConnection(Function<HttpMessage, HttpMessage> action) {
         this.action = action;
     }
+    public boolean isRunning() {return isBound() && !server.isClosed();}
     public boolean isBound() {
         return server.isBound();
     }

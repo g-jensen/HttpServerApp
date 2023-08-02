@@ -282,20 +282,6 @@ class ServerApplicationTest {
     }
 
     @Test
-    void handlesConnectionsAsynchronously() throws BadUsageException, IOException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
-        ServerApplication s = new ServerApplication(new String[]{"-p","8090"},p);
-        s.run();
-
-        Instant start = Instant.now();
-        for (int i = 0; i < 5; i++) {
-            pingServer(s.getServer());
-        }
-        Instant end = Instant.now();
-        assertTrue(Duration.between(start,end).getSeconds() < 5);
-    }
-
-    @Test
     void formatsAnInstant() {
         Instant i1 = Instant.EPOCH;
         assertEquals("Thu, 01 Jan 1970 00:00:00 GMT", ServerApplication.formatInstant(i1));

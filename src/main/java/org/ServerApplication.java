@@ -51,9 +51,7 @@ public class ServerApplication {
                 buildFile(res,uri);
             return res;
         });
-        new Thread(()->{
-            while (server.isBound()) server.handleConnection();
-        }).start();
+        server.run();
     }
     public void addCommands() {
         commandParser.addCommand("-p",80);
