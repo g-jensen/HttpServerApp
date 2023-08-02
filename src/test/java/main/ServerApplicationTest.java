@@ -1,4 +1,4 @@
-package org;
+package main;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import commandparser.BadUsageException;

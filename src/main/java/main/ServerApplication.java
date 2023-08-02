@@ -1,4 +1,4 @@
-package org;
+package main;
 
 import commandparser.BadUsageException;
 import commandparser.CommandParser;

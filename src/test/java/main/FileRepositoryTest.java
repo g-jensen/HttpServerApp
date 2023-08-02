@@ -1,4 +1,4 @@
-package org;
+package main;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
