@@ -76,7 +76,7 @@ public class ServerApplication {
 
     private void buildWelcomeScreen(HttpMessage res) {
         String body = "<h1>Welcome</h1><p>This is an http server</p>";
-        res.setStartLine("HTTP/1.1 200 OK");
+        res.setStartLine(HttpMessage.HttpOK);
         res.putHeader("Content-Length", String.valueOf(body.length()));
         res.putHeader("Content-Type","text/html");
         res.setBody(body);
@@ -86,7 +86,7 @@ public class ServerApplication {
             Thread.sleep(1000);
         } catch (Exception ignored) {}
         String body = formatInstant(Instant.now());
-        res.setStartLine("HTTP/1.1 200 OK");
+        res.setStartLine(HttpMessage.HttpOK);
         res.putHeader("Content-Length", String.valueOf(body.length()));
         res.putHeader("Content-Type","text/html");
         res.setBody(body);
@@ -102,7 +102,7 @@ public class ServerApplication {
             file = file.substring(rootDirectory.length());
             body += "<a href=\"" + file + "\">" + file + "</a>" + "<br>";
         }
-        res.setStartLine("HTTP/1.1 200 OK");
+        res.setStartLine(HttpMessage.HttpOK);
         res.putHeader("Content-Length", String.valueOf(body.length()));
         res.putHeader("Content-Type","text/html");
         res.setBody(body);
@@ -110,7 +110,7 @@ public class ServerApplication {
     private void buildFile(HttpMessage res, String uri) {
         Path p = repository.getPath(uri);
         byte[] body = repository.fileData(uri);
-        res.setStartLine("HTTP/1.1 200 OK");
+        res.setStartLine(HttpMessage.HttpOK);
         res.putHeader("Content-Length", String.valueOf(body.length));
         try {
             res.putHeader("Content-Type", Files.probeContentType(p));
@@ -136,7 +136,7 @@ public class ServerApplication {
             else
                 body = guessBody(answer,tries+1) + " too high";
         }
-        res.setStartLine("HTTP/1.1 200 OK");
+        res.setStartLine(HttpMessage.HttpOK);
         res.putHeader("Content-Length", String.valueOf(body.length()));
         res.putHeader("Content-Type","text/html");
         res.setBody(body);

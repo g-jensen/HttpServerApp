@@ -70,6 +70,7 @@ public class HttpMessage {
     public void setMethod(String method) {
         this.method = method;
     }
+    public final static String HttpOK = "HTTP/1.1 200 OK";
     private String startLine;
     private String URI;
     private String method;
