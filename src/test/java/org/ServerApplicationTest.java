@@ -4,7 +4,6 @@ import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import commandparser.BadUsageException;
 import httpserver.BadRequestException;
 import httpserver.HttpMessage;
-import httpserver.HttpServer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -12,7 +11,6 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -22,16 +20,6 @@ import static org.mockito.Mockito.*;
 
 
 class ServerApplicationTest {
-
-    void pingServer(HttpServer server) {
-        Socket socket = new Socket();
-        try {
-            socket.connect(server.getServer().getLocalSocketAddress());
-            socket.getOutputStream().write("GET /ping HTTP/1.1\r\nHost: me\r\n\r\n".getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Test
     void addsCommands() throws IOException, BadUsageException {

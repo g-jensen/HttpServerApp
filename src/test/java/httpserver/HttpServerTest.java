@@ -1,8 +1,6 @@
 package httpserver;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-import commandparser.BadUsageException;
-import org.ServerApplication;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
