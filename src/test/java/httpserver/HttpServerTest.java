@@ -24,7 +24,6 @@ class HttpServerTest {
         assertTrue(s1.isBound());
         assertEquals(a1,s1.socketAddress());
         assertEquals(s1.listeningString()+"\n",o1.toString());
-        s1.stop();
     }
 
     @Test
@@ -74,7 +73,7 @@ class HttpServerTest {
     }
 
     @Test
-    void callsFunctionOnConnection() throws IOException, InterruptedException, BadRequestException {
+    void callsFunctionOnConnection() throws IOException, BadRequestException {
         InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8083);
         HttpServer s1 = new HttpServer(a1);
         s1.setPrintStream(new PrintStream(new ByteOutputStream()));
@@ -125,7 +124,7 @@ class HttpServerTest {
     }
 
     @Test
-    void sendsReturnValueOfOnConnectionWhenHandlingConnection() throws IOException, InterruptedException, BadRequestException {
+    void sendsReturnValueOfOnConnectionWhenHandlingConnection() throws IOException, BadRequestException {
         InetSocketAddress a1 = new InetSocketAddress("127.0.0.1", 8084);
         HttpServer s1 = new HttpServer(a1);
         s1.setPrintStream(new PrintStream(new ByteOutputStream()));
@@ -145,7 +144,7 @@ class HttpServerTest {
     }
 
     @Test
-    void handlesBadRequest() throws IOException, BadRequestException, InterruptedException {
+    void handlesBadRequest() throws IOException, BadRequestException {
         InetSocketAddress a1 = new InetSocketAddress("127.0.0.1",8101);
         HttpServer s1 = new HttpServer(a1);
         s1.setPrintStream(new PrintStream(new ByteOutputStream()));
