@@ -8,7 +8,7 @@ The source code includes an example app that I created in the `main` package and
 
 The actual HTTP Server implementation is in `httpserver`.
 
-A simple example app might look something like:
+A simple example app:
 ```java
 package org.example;
 
