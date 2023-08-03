@@ -3,6 +3,7 @@
 Functionality:
 * -p <port> command line option to specify port (default 80)
 * -r <path> command line option to specify root directory (default .)
+* -h <hostname> command line option to specify hostname (default localhost)
 * /hello => welcome screen
 * / | /\<dir path> => server “index.html” if it exists, else show listing of file in root directory
 * /<file path> => serve files with appropriate mime type for extension (txt, png, jpg, gif, pdf) (sample files in repo)
