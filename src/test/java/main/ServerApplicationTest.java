@@ -1,6 +1,5 @@
 package main;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import commandparser.BadUsageException;
 import org.httpserver.BadRequestException;
 import org.httpserver.HttpMessage;
@@ -8,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -23,7 +23,7 @@ class ServerApplicationTest {
 
     @Test
     void addsCommands() throws IOException, BadUsageException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8086"},p);
 
         s.addCommands();
@@ -37,7 +37,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithWelcomeScreen() throws IOException, BadUsageException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8087"},p);
         s.run();
 
@@ -52,7 +52,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithPing() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8088"},p);
         s.run();
 
@@ -68,7 +68,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithFilesInDirectory() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8089"},p);
         s.run();
 
@@ -91,7 +91,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithFile() throws IOException, BadRequestException, BadUsageException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8091"},p);
         s.run();
 
@@ -106,7 +106,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithTxtMimeType() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8099"},p);
         s.run();
 
@@ -120,7 +120,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithPngMimeType() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8100"},p);
         s.run();
 
@@ -133,7 +133,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsForNestedDirectories() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8092"},p);
         s.run();
 
@@ -150,7 +150,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsToGuessGet() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8093"},p);
         s.run();
 
@@ -174,7 +174,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsToWinningGuessPost() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8094"},p);
         s.run();
 
@@ -191,7 +191,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsToLosingGuessPost() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8095"},p);
         s.run();
 
@@ -208,7 +208,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsToLowGuessPost() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8096"},p);
         s.run();
 
@@ -231,7 +231,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsToHighGuessPost() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8097"},p);
         s.run();
 
@@ -254,7 +254,7 @@ class ServerApplicationTest {
 
     @Test
     void respondsWithIndexHTML() throws BadUsageException, IOException, BadRequestException {
-        PrintStream p = new PrintStream(new ByteOutputStream());
+        PrintStream p = new PrintStream(new ByteArrayOutputStream());
         ServerApplication s = new ServerApplication(new String[]{"-p","8098"},p);
         s.run();
 
