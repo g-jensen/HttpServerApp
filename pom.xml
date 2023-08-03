@@ -15,6 +15,13 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>httpserver</groupId>
+            <artifactId>httpserver</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/HttpServer.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>

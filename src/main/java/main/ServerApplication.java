@@ -2,8 +2,8 @@ package main;
 
 import commandparser.BadUsageException;
 import commandparser.CommandParser;
-import httpserver.HttpMessage;
-import httpserver.HttpServer;
+import org.httpserver.HttpMessage;
+import org.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.io.PrintStream;

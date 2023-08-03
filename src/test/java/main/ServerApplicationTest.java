@@ -2,8 +2,8 @@ package main;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import commandparser.BadUsageException;
-import httpserver.BadRequestException;
-import httpserver.HttpMessage;
+import org.httpserver.BadRequestException;
+import org.httpserver.HttpMessage;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
