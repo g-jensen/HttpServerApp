@@ -1,5 +1,7 @@
 # HttpServerApp
 
+An HTTP app that uses my [HTTP Server Library](https://github.com/g-jensen/HttpServer)
+
 Functionality:
 * -p <port> command line option to specify port (default 80)
 * -r <path> command line option to specify root directory (default .)
