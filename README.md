@@ -1,4 +1,4 @@
-# HttpServer
+# HttpServerApp
 
 Java HTTP Server from scratch (not using `java.net.http` or any external libraries)
 
